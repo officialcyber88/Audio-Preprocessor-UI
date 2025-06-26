@@ -2,7 +2,9 @@ numpy>=1.22
 librosa>=0.10
 matplotlib>=3.5
 soundfile>=0.10
-torch>=1.10
+torch==2.6.0
+torchaudio==2.6.0
+torchvision==0.21.0
 pyloudnorm>=0.1.1
 gradio>=4.0
 resampy>=0.4.0
