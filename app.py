@@ -525,7 +525,7 @@ def gradio_process(input_mode, uploads, path_in, gdrive_url,
     )
 
 # === Gradio UI ===
-with gr.Blocks(title="Audio Preprocessor", theme=gr.themes.Soft()) as demo:
+with gr.Blocks(title="Audio Preprocessor GUI", theme=gr.themes.Soft()) as demo:
     gr.Markdown("# Audio Preprocessor")
     gr.Markdown(f"Outputs saved in `{OUTPUT_DIR}`")
 
