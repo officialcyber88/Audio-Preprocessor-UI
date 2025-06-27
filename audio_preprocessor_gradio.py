@@ -1,5 +1,3 @@
-# @title Audio Preprocessor GUI 
-
 import sys
 import shutil
 import os
