@@ -1,3 +1,16 @@
+---
+license: unlicense
+title: Audio Preprocessor
+sdk: gradio
+emoji: ⚡
+colorFrom: green
+colorTo: gray
+short_description: Audio Preprocessing
+pinned: true
+thumbnail: >-
+  https://cdn-uploads.huggingface.co/production/uploads/685e0a37361aae99d2a3d907/reRACpFiIzn30l-uR2ZWy.png
+sdk_version: 5.34.2
+---
 # Audio Preprocessor GUI
 
 An interactive Gradio-based GUI tool for preprocessing audio files with options for resampling, loudness normalization, silence trimming, panning correction, segmentation, visualization, and export in various formats.
@@ -97,3 +110,5 @@ MIT License
 ---
 
 Happy audio processing!
+
+Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
