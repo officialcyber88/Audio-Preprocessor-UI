@@ -1,10 +1,21 @@
+# Audio Preprocessor Requirements
+
+# Core numerical computing
 numpy>=1.22
+
+# Audio analysis and I/O
 librosa>=0.10
-matplotlib>=3.5
 soundfile>=0.10
+resampy>=0.4.0
+pyloudnorm>=0.1.1
+
+# Machine-learning backend
 torch==2.6.0
 torchaudio==2.6.0
 torchvision==0.21.0
-pyloudnorm>=0.1.1
+
+# Web-based UI
 gradio>=4.0
-resampy>=0.4.0
+
+# Plotting
+matplotlib>=3.5
