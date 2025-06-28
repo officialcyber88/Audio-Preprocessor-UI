@@ -2,7 +2,10 @@
 license: unlicense
 title: Audio Preprocessor
 sdk: gradio
-emoji: 🧪![IMG_0324](https://github.com/user-attachments/assets/5423151a-b1ea-4b1d-a8fe-51ef201ea6ad)
+emoji: 🧪
+
+![IMG_0324](https://github.com/user-attachments/assets/7d8b65bd-7fea-4eeb-95d9-11824aa47704)
+
 
 colorFrom: green
 colorTo: gray
