@@ -53,7 +53,7 @@ An interactive Gradio-based GUI tool for preprocessing audio files with options 
 ## Installation
 
 ```bash
-git clone https://github.com/your-repo/audio-preprocessor-gui.git
+git clone https://github.com/officialcyber88/Audio-Preprocessor-GUI.git
 cd audio-preprocessor-gui
 python3 -m venv venv
 source venv/bin/activate
