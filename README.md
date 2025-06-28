@@ -4,9 +4,6 @@ title: Audio Preprocessor
 sdk: gradio
 emoji: 🧪
 
-![IMG_0324](https://github.com/user-attachments/assets/7d8b65bd-7fea-4eeb-95d9-11824aa47704)
-
-
 colorFrom: green
 colorTo: gray
 short_description: Audio Preprocessing
