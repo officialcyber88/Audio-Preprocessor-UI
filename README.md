@@ -12,7 +12,10 @@ thumbnail: >-
   https://cdn-uploads.huggingface.co/production/uploads/685e0a37361aae99d2a3d907/reRACpFiIzn30l-uR2ZWy.png
 sdk_version: 5.34.2
 ---
+
 # Audio Preprocessor GUI
+
+Try it out: [Audio Preprocessor GUI](https://officialcyber88-audio-preprocessor-ui.hf.space)
 
 An interactive Gradio-based GUI tool for preprocessing audio files with options for resampling, loudness normalization, silence trimming, panning correction, segmentation, visualization, and export in various formats.
 
