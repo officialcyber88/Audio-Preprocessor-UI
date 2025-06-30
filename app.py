@@ -67,6 +67,7 @@ class Config:
     duration: float
     panning: bool
     mp3_bitrate: str
+    silence_trimming: bool  # Added silence trimming flag
 
 # === Helpers ===
 
@@ -330,8 +331,16 @@ def process_file(fp, cfg, params):
             y = np.vstack([y,y])
         y = attenuate_clipped_audio(y, log)
         y_pre = y.copy()
-        y_proc, (_pre,_post,total), (s0,e0) = process_silence(y, cfg.sample_rate, log)
-        log(f"Silence removed {format_duration(total)} (start {format_duration(_pre)}, end {format_duration(_post)})")
+        
+        # Apply silence trimming if enabled
+        if cfg.silence_trimming:  # New conditional check
+            y_proc, (_pre,_post,total), (s0,e0) = process_silence(y, cfg.sample_rate, log)
+            log(f"Silence removed {format_duration(total)} (start {format_duration(_pre)}, end {format_duration(_post)})")
+        else:
+            y_proc = y
+            s0, e0 = 0, y.shape[-1]
+            log("Silence trimming skipped")
+            
         if y_proc.size==0:
             log("Empty after silence; skipping")
             return res
@@ -367,7 +376,7 @@ def process_file(fp, cfg, params):
 def gradio_process(input_mode, uploads, path_in, gdrive_url,
                   out_fmt, sr, bd, ch, mp3_br,
                   norm, pan, seg, dur, tu, viz,
-                  zip_enable, custom_zip_name):
+                  zip_enable, custom_zip_name, silence_trimming):  # Added silence_trimming parameter
     logs = ["=== Input Method ==="]
     raw_inputs = []
     base_name_for_zip = None
@@ -416,6 +425,7 @@ def gradio_process(input_mode, uploads, path_in, gdrive_url,
     logs.append("=== Processing Options ===")
     logs.append(f"Normalization Profile: {norm}")
     logs.append(f"Panning Correction: {pan}")
+    logs.append(f"Silence Trimming: {silence_trimming}")  # New log entry
     logs.append(f"Segmentation: {'Yes' if seg else 'No'}" + (f", Duration {dur}{tu}" if seg else ""))
     logs.append(f"Show Visualizations: {'Yes' if viz else 'No'}")
     logs.append(f"Custom ZIP Name: {custom_zip_name or '(none)'}")
@@ -442,7 +452,8 @@ def gradio_process(input_mode, uploads, path_in, gdrive_url,
         use_cuda=use_cuda, device=device,
         visualize=viz, segmentation=seg,
         duration=dsec, panning=(pan=="Yes"),
-        mp3_bitrate=mp3_br
+        mp3_bitrate=mp3_br,
+        silence_trimming=(silence_trimming=="Yes")  # New config parameter
     )
 
     gallery_images = []
@@ -507,6 +518,7 @@ def gradio_process(input_mode, uploads, path_in, gdrive_url,
     logs.append(f"Channels: {ch}")
     logs.append(f"Normalization Profile: {norm}")
     logs.append(f"Panning Correction: {pan}")
+    logs.append(f"Silence Trimming: {silence_trimming}")  # New log entry
     logs.append(f"Segmentation: {'Yes' if seg else 'No'}" + (f", Duration {dur}{tu}" if seg else ""))
     logs.append(f"Visualizations: {'Yes' if viz else 'No'}")
     logs.append("")
@@ -559,6 +571,7 @@ with gr.Blocks(title="Audio Preprocessor GUI", theme=gr.themes.Soft()) as demo:
         with gr.Row():
             norm_profile   = gr.Dropdown(["No Normalization","Spotify","Apple Music"], value="Spotify", label="Normalization Profile")
             panning_option = gr.Dropdown(["Yes","No"],                             value="Yes",     label="Enable Panning Correction")
+            silence_trimming = gr.Dropdown(["Yes","No"],                           value="Yes",     label="Enable Silence Trimming")  # New dropdown
             visualize      = gr.Checkbox(value=True, label="Show Visualizations")
         with gr.Row():
             segmentation = gr.Checkbox(value=False, label="Enable Segmentation")
@@ -588,7 +601,8 @@ with gr.Blocks(title="Audio Preprocessor GUI", theme=gr.themes.Soft()) as demo:
             input_mode, file_uploader, path_text, gdrive_text,
             out_fmt, sample_rate, bit_depth, channels, mp3_bitrate,
             norm_profile, panning_option, segmentation, duration,
-            time_unit, visualize, zip_enable, custom_zip_name
+            time_unit, visualize, zip_enable, custom_zip_name,
+            silence_trimming  # Added new input
         ],
         outputs=[logs_out, gallery, audio_out, file_selector, audio_player]
     )
