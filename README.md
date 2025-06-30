@@ -21,37 +21,29 @@ An interactive Gradio-based GUI tool for preprocessing audio files with options 
 
 ## Features
 
-- **Multi-format Support**: Accepts `.wav`, `.mp3`, `.flac`, `.aiff`, `.ogg`, `.m4a` files.  
-- **Input Methods**: Upload files, provide a folder path, or import from a Google Drive shared folder.  
+- **Multi-format Support**: Accepts `.wav`, `.mp3`, `.flac`, `.aiff`, `.ogg`, `.m4a` files  
+- **Input Methods**: Upload files, enter a local path, or import from a Google Drive shared folder  
 - **Preprocessing Options**:  
-  - Loudness normalization (LUFS and peak-based)  
-  - Silence trimming from start and end  
+  - Loudness normalization (LUFS + peak-based)  
+  - Optional silence trimming from start and end  
   - Stereo panning correction  
   - Sample rate conversion  
   - Bit depth adjustment  
   - Mono/stereo channel conversion  
-- **Segmentation**: Slice long audio into equal segments by time.  
-- **Visualization**: Plot original and processed waveforms with zoomed-in silence trimming views.  
-- **Batch Processing**: Supports multi-threaded processing of entire folders or ZIP archives.  
-- **Export Formats**: `.wav`, `.mp3`, `.flac`, `.aiff` with configurable bit depth and bitrate.  
-- **Output as ZIP**: Bundle processed audio into a downloadable ZIP archive.  
-- **CUDA Acceleration**: Automatically uses GPU if available (via PyTorch).
+- **Segmentation**: Slice long audio into equal time-based segments  
+- **Visualization**: View original and processed waveform plots, including zoomed-in silence zones  
+- **Batch Processing**: Multi-threaded support for folders or ZIP archives  
+- **Export Formats**: `.wav`, `.mp3`, `.flac`, `.aiff` with configurable settings  
+- **ZIP Export**: Bundle outputs into a downloadable ZIP archive  
+- **CUDA Acceleration**: Uses GPU if available for faster processing
 
 ## Dependencies
 
 - Python ≥ 3.7  
-- `numpy`  
-- `librosa`  
-- `matplotlib`  
-- `soundfile`  
-- `torch`  
-- `pyloudnorm`  
-- `gradio`  
-- `gdown`  
-- `resampy`  
-- `ffmpeg` (system-level dependency)
+- `numpy`, `librosa`, `matplotlib`, `soundfile`, `torch`, `pyloudnorm`, `gradio`, `gdown`, `resampy`  
+- System: `ffmpeg` (must be installed and on PATH)
 
-> Missing Python packages (`resampy`, `gdown`) are auto-installed at runtime if not present.
+> `resampy` and `gdown` are auto-installed at runtime if missing
 
 ## Installation
 
@@ -61,7 +53,7 @@ cd audio-preprocessor-gui
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-# Ensure ffmpeg is installed and in your PATH
+# Make sure ffmpeg is installed and available in your PATH
 ```
 
 ## Usage
@@ -70,27 +62,28 @@ pip install -r requirements.txt
 python app.py
 ```
 
-1. Open the printed local URL in your browser (e.g. `http://127.0.0.1:7860`).
+1. Open the URL shown in your terminal (e.g. `http://127.0.0.1:7860`)
 
 2. Choose an Input Method:  
-   - **Upload**: Drag-and-drop or browse multiple audio files.  
-   - **Path**: Enter a filesystem path to a directory, single file, or ZIP.  
-   - **Google Drive URL**: Paste a shareable folder link (`https://drive.google.com/drive/folders/...`).  
+   - **Upload**: Drop or browse multiple audio files  
+   - **Path**: Enter a directory or ZIP archive path  
+   - **Google Drive URL**: Paste a shareable folder link
 
 3. Configure Output Settings:  
-   - **Format**: `wav` | `mp3` | `flac` | `aiff`  
-   - **Sample Rate**: `16000Hz` | `44100Hz` | `48000Hz`  
-   - **Bit Depth**: `16` | `24` | `32` (FLAC 32-bit falls back to 24-bit)  
-   - **Channels**: `mono` | `stereo`  
-   - **MP3 Bitrate** (if MP3): `128k` | `192k` | `256k` | `320k`  
+   - **Format**: `wav`, `mp3`, `flac`, `aiff`  
+   - **Sample Rate**: `16000Hz`, `44100Hz`, `48000Hz`  
+   - **Bit Depth**: `16`, `24`, `32` *(FLAC 32-bit falls back to 24-bit)*  
+   - **Channels**: `mono`, `stereo`  
+   - **MP3 Bitrate**: `128k`, `192k`, `256k`, `320k` (only shown for MP3)
 
 4. Expand Processing Options:  
    - **Normalization Profile**: `No Normalization` | `Spotify` (–14 LUFS, –1 dB) | `Apple Music` (–16 LUFS, –1 dB)  
    - **Panning Correction**: Yes / No  
+   - **Silence Trimming**: Yes / No  
    - **Show Visualizations**: Toggle waveform & silence‐zoom plots  
    - **Enable Segmentation**: Split into fixed‐length chunks  
-     - *Duration*: slider + time unit (`ms` / `s` / `min` / `h`)  
-   - **Save outputs as ZIP**: Yes / No + optional ZIP name  
+     - *Duration*: slider + time unit (`Milliseconds`, `Seconds`, `Minutes`, `Hours`)  
+   - **Save outputs as ZIP**: Yes / No + optional ZIP name
 
 5. Click **Process Audio** and view:  
    - **Logs**: Detailed processing trace  
@@ -100,12 +93,12 @@ python app.py
 
 ## Code Structure
 
-- `Config` dataclass holds global settings (sample rate, bit depth, LUFS targets, etc.).  
-- Pre-flight checks auto-install missing Python deps and verify `ffmpeg`.  
-- Helper functions for loudness measurement/normalization, panning correction, clipping detection, silence trimming, and plotting.  
-- `process_file` executes the pipeline per file, logs each step, generates plots, and exports.  
-- Gradio UI (`gr.Blocks`) organizes inputs, settings, and result tabs (Logs, Visualizations, Files, Player).  
-- Concurrency via `ThreadPoolExecutor` for batch speed.
+- `Config` dataclass holds global settings (sample rate, bit depth, LUFS targets, etc.)  
+- Pre-flight checks auto-install missing Python deps and verify `ffmpeg`  
+- Helper functions for loudness measurement/normalization, panning correction, clipping detection, silence trimming, and plotting  
+- `process_file` executes the pipeline per file, logs each step, generates plots, and exports  
+- Gradio UI (`gr.Blocks`) organizes inputs, settings, and result tabs (Logs, Visualizations, Files, Player)  
+- Concurrency via `ThreadPoolExecutor` for batch speed
 
 ## License
 
@@ -114,5 +107,3 @@ MIT License
 ---
 
 Happy audio processing!
-
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
