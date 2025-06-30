@@ -1,18 +1,3 @@
----
-license: unlicense
-title: Audio Preprocessor
-sdk: gradio
-emoji: 🧪
-
-colorFrom: green
-colorTo: gray
-short_description: Audio Preprocessing
-pinned: true
-thumbnail: >-
-  https://cdn-uploads.huggingface.co/production/uploads/685e0a37361aae99d2a3d907/reRACpFiIzn30l-uR2ZWy.png
-sdk_version: 5.34.2
----
-
 # Audio Preprocessor GUI
 
 Try it out: [Audio Preprocessor GUI](https://officialcyber88-audio-preprocessor-ui.hf.space)
